@@ -23,10 +23,22 @@ pub fn list() void {
 pub fn add(name: []const u8, phone: []const u8) !void {
     const contact = Contact{ .name = name, .phone = phone };
     try contactBook.put(contactBook.count(), contact);
+    std.debug.print("Contact added succesfully!\n", .{});
 }
 
 pub fn put(contact: Contact) !void {
-    try contactBook.put(contactBook.count(), contact);
+    const name = try allocator.dupe(u8, contact.name);
+    const phone = try allocator.dupe(u8, contact.phone);
+    const newContact = Contact{ .name = name, .phone = phone };
+    try contactBook.put(contactBook.count(), newContact);
+}
+
+pub fn remove(id: u8) !void {
+    if (contactBook.remove(id)) {
+        std.debug.print("Contact removed succesfully!\n", .{});
+    } else {
+        std.debug.print("Contact not found!\n", .{});
+    }
 }
 
 pub fn get(key: u32) ?Contact {
