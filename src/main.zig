@@ -41,6 +41,7 @@ fn getRequest() !void {
         std.debug.print("Error: {}\n", .{err});
         return;
     };
+    std.debug.print("\n", .{});
     try switch (decision.?[0]) {
         '0' => contactBook.list(),
         '1' => addContact(),
@@ -64,6 +65,7 @@ fn wantToContinue() !bool {
         std.debug.print("Error: {}\n", .{err});
         return false;
     };
+    std.debug.print("\n", .{});
     return decision.?[0] == 'y';
 }
 
@@ -82,17 +84,19 @@ fn addContact() !void {
     if (try stdin.readUntilDelimiterOrEof(buf[0..], '\n')) |input| {
         phone = try allocator.dupe(u8, input);
     }
+    std.debug.print("\n", .{});
     try contactBook.add(name, phone);
 }
 
 fn removeContact() !void {
-    std.debug.print("Enter the id of the contact you want to remove: ", .{});
+    std.debug.print("Enter the id:\n└─ ", .{});
     var stdin = std.io.getStdIn().reader();
     var buffer: [2]u8 = undefined;
     const id = stdin.readUntilDelimiterOrEof(buffer[0..], '\n') catch |err| {
         std.debug.print("Error: {}\n", .{err});
         return;
     };
+    std.debug.print("\n", .{});
     try contactBook.remove(id.?[0] - '0');
 }
 

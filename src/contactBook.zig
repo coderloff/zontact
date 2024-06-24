@@ -18,6 +18,7 @@ pub fn list() void {
         std.debug.print("|| Phone: {s}\n", .{contactBook.get(key.*).?.phone});
         std.debug.print("==================================\n", .{});
     }
+    std.debug.print("\n", .{});
 }
 
 pub fn add(name: []const u8, phone: []const u8) !void {
